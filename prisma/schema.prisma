@@ -1,14 +1,20 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 🧑‍💻 Entidad de Usuario (Mapeada exactamente a tu SQL)
+model User {
+  id            String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name          String    @db.VarChar(20)
+  email         String    @unique @db.VarChar(150)
+  password_hash String
+  role          String?   @default("cliente") @db.VarChar(20)
+  created_at    DateTime? @default(now()) @db.Timestamp(6)
+
+  @@map("users") // Esto conecta este modelo con tu tabla real "users"
 }
