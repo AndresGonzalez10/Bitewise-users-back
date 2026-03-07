@@ -60,7 +60,6 @@ export const getAdminStatsService = async () => {
   return totalUsers;
 };
 
-// 👇 NUEVAS FUNCIONES PARA LA HIPÓTESIS
 
 export const getUserProfileService = async (userId: string) => {
   const user = await prisma.user.findUnique({
