@@ -14,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/users', userRoutes);
+initAdmin();
 
 app.listen(PORT as number, '0.0.0.0', () => {
   console.log(`Servidor de Usuarios corriendo en el puerto ${PORT}`);
