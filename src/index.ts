@@ -14,7 +14,6 @@ app.use(express.json());
 
 app.use('/api/users', userRoutes);
 
-app.listen(PORT, async () => { 
-  console.log(`🚀 Servicio de Usuarios (SOA) corriendo en http://localhost:${PORT}`);
-  await initAdmin(); 
+app.listen(PORT as number, '0.0.0.0', () => {
+  console.log(`Servidor de Usuarios corriendo en el puerto ${PORT}`);
 });
