@@ -1,10 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes';
 import { initAdmin } from './utils/initAdmin'; 
 
-dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 3001; 
