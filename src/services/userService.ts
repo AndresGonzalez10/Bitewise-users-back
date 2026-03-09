@@ -14,13 +14,13 @@ export const registerUserService = async (data: any) => {
   }
   
   const saltRounds = 10;
-  const password_hash = await bcrypt.hash(password, saltRounds);
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
   
   return await prisma.user.create({
     data: { 
       name, 
       email, 
-      password_hash, 
+      password: hashedPassword, 
       role: 'cliente',
       weekly_budget: weekly_budget ? Number(weekly_budget) : 0 
     },
@@ -34,7 +34,7 @@ export const loginUserService = async (data: any) => {
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) throw new Error('Credenciales inválidas');
 
-  const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+  const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) throw new Error('Credenciales inválidas');
 
   const token = jwt.sign(

@@ -19,13 +19,14 @@ export const initAdmin = async () => {
 
     if (!adminExists) {
       const saltRounds = 10;
-      const password_hash = await bcrypt.hash(adminPassword, saltRounds);
+      // Renombramos la variable a hashedPassword para mayor claridad
+      const hashedPassword = await bcrypt.hash(adminPassword, saltRounds);
 
       await prisma.user.create({
         data: {
           name: 'Admin',
           email: adminEmail,
-          password_hash: password_hash,
+          password: hashedPassword, // ✅ CORREGIDO: Ahora usa 'password'
           role: 'administrador'
         }
       });
