@@ -8,7 +8,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'secreto_por_defecto';
 export const registerUserService = async (data: any) => {
   const { name, email, password, weekly_budget } = data;
 
-  const userExists = await prisma.user.findUnique({ where: { email } });
+  const userExists = await prisma.users.findUnique({ where: { email } });
   if (userExists) {
     throw new Error('El correo ya está registrado'); 
   }
@@ -16,7 +16,7 @@ export const registerUserService = async (data: any) => {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
   
-  return await prisma.user.create({
+  return await prisma.users.create({
     data: { 
       name, 
       email, 
@@ -31,7 +31,7 @@ export const registerUserService = async (data: any) => {
 export const loginUserService = async (data: any) => {
   const { email, password } = data;
 
-  const user = await prisma.user.findUnique({ where: { email } });
+  const user = await prisma.users.findUnique({ where: { email } });
   if (!user) throw new Error('Credenciales inválidas');
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -56,13 +56,13 @@ export const loginUserService = async (data: any) => {
 };
 
 export const getAdminStatsService = async () => {
-  const totalUsers = await prisma.user.count({ where: { role: 'cliente' } });
+  const totalUsers = await prisma.users.count({ where: { role: 'cliente' } });
   return totalUsers;
 };
 
 
 export const getUserProfileService = async (userId: string) => {
-  const user = await prisma.user.findUnique({
+  const user = await prisma.users.findUnique({
     where: { id: userId },
     select: { 
       id: true, 
@@ -81,7 +81,7 @@ export const getUserProfileService = async (userId: string) => {
 export const updateUserProfileService = async (userId: string, data: any) => {
   const { weekly_budget, name } = data;
 
-  return await prisma.user.update({
+  return await prisma.users.update({
     where: { id: userId },
     data: {
       name: name || undefined,
