@@ -13,7 +13,7 @@ export const initAdmin = async () => {
   }
 
   try {
-    const adminExists = await prisma.user.findUnique({
+    const adminExists = await prisma.users.findUnique({
       where: { email: adminEmail }
     });
 
@@ -21,7 +21,7 @@ export const initAdmin = async () => {
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(adminPassword, saltRounds);
 
-      await prisma.user.create({
+      await prisma.users.create({
         data: {
           name: 'Admin',
           email: adminEmail,
